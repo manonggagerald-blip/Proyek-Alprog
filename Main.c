@@ -1,18 +1,46 @@
 #include <stdio.h>
+#include <string.h>
 
-int main(){
-int n;
+typedef struct {
+    char kode_matakuliah[20];
+    char nama_matakuliah[50];
+    int sks;
+    float nilai_angka;
+} Data;
 
-printf("Masukkan nilai n: ");
-scanf("%d",&n);
-
-int arr[n];
-printf("Masukkan data array: ");
-for(int i=0;i<n;i++){
-scanf("%d",&arr[i]);
-printf("%d",arr[i]);
+void tampilkanKHS(Data data[], int n) {
+    printf("KODE_MK\tNAMA_MK\tSKS\tNILAI_ANGKA\n");
+    for (int i = 0; i < n; i++) {
+        printf("%s\t%s\t%d\t%.2f\n",
+            data[i].kode_matakuliah,
+            data[i].nama_matakuliah,
+            data[i].sks,
+            data[i].nilai_angka);
+    }
 }
 
+int main() {
+    int n;
+    printf("Masukkan jumlah data : ");
+    scanf("%d", &n);
+    
+    Data khs[n];
+    
+    for (int i = 0; i < n; i++) {
+        printf("Masukkan kode mk : ");
+        scanf("%s", khs[i].kode_matakuliah);
+        
+        printf("Masukkan nama mk : ");
+        scanf("%s", khs[i].nama_matakuliah);
+        
+        printf("Masukkan sks/mk : ");
+        scanf("%d", &khs[i].sks);
+        
+        printf("Masukkan nilai angka : ");
+        scanf("%f", &khs[i].nilai_angka);
+    }
+    
+    tampilkanKHS(khs, n);
 
-return 0;  
+    return 0;
 }
