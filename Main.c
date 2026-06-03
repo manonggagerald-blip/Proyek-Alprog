@@ -11,9 +11,9 @@ typedef struct {
 
 // MENAMPILKAN DATA KARTU HASIL STUDI
 void tampilkanKHS(Data data[], int n) {
-    printf("KODE_MK\tNAMA_MK\tSKS\tNILAI_ANGKA\tNILAI_SKS\n");
+    printf("%-10s %-25s %-5s %-12s %-9s\n", "KODE_MK", "NAMA_MK", "SKS", "NILAI_ANGKA", "NILAI_SKS");
     for (int i = 0; i < n; i++) {
-        printf("%s\t%s\t%d\t%.2f\t%d\n",
+        printf("%-10s %-25s %-5d %-12.2f %-9d\n",
             data[i].kode_matakuliah,
             data[i].nama_matakuliah,
             data[i].sks,
@@ -98,8 +98,15 @@ int main() {
         printf("Masukkan kode mk : ");
         scanf("%s", khs[i].kode_matakuliah);
         
+        getchar();
+        
         printf("Masukkan nama mk : ");
-        scanf("%s", khs[i].nama_matakuliah);
+        fgets(khs[i].nama_matakuliah,sizeof(khs[i].nama_matakuliah),
+        stdin);
+        
+        khs[i].nama_matakuliah[
+            strcspn(khs[i].nama_matakuliah,"\n")
+            ] = '\0';
         
         printf("Masukkan sks/mk : ");
         scanf("%d", &khs[i].sks);
@@ -150,4 +157,3 @@ int main() {
 
     return 0;
 }
-1
