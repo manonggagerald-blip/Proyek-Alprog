@@ -85,71 +85,154 @@ int binarySearch(Data data[], int n, char cari[]) {
 
 // FUNGSI UTAMA
 int main() {
+    
+    Data khs[100];
+    
     int n;
-    printf("Masukkan jumlah data : ");
-    scanf("%d", &n);
-    
-    Data khs[n];
-    
-    // MEMASUKKAN DATA KARTU HASIL STUDI DARI USER DENGAN PERULANGAN ARRAY
-    for (int i = 0; i < n; i++) {
-        printf("Input data ke %d\n", i + 1);
+    int pilihan;
 
-        printf("Masukkan kode mk : ");
-        scanf("%s", khs[i].kode_matakuliah);
-        
-        getchar();
-        
-        printf("Masukkan nama mk : ");
-        fgets(khs[i].nama_matakuliah,sizeof(khs[i].nama_matakuliah),
-        stdin);
-        
-        khs[i].nama_matakuliah[
-            strcspn(khs[i].nama_matakuliah,"\n")
-            ] = '\0';
-        
-        printf("Masukkan sks/mk : ");
-        scanf("%d", &khs[i].sks);
-        
-        printf("Masukkan nilai angka : ");
-        scanf("%f", &khs[i].nilai_angka);
-        
-        printf("Masukkan nilai sks : ");
-        scanf("%d", &khs[i].nilai_sks);
+    int dataSudahDiisi = 0;
+    int dataSudahDiurutkan = 0;
 
-        printf("\n");
-    }
+    // FITUR MENU PROGRAM
+    do {
+        printf("\n===== MENU PROGRAM =====\n");
+        printf("1. INPUT DATA\n");
+        printf("2. MENAMPILKAN DATA\n");
+        printf("3. TOTAL SKS\n");
+        printf("4. TOTAL NILAI SKS\n");
+        printf("5. NILAI INDEKS PRESTASI SEMESTER\n");
+        printf("6. RATA RATA NILAI ANGKA\n");
+        printf("7. MENGURUTKAN DATA BERDASARKAN KODE MATA KULIAH\n");
+        printf("8. MENCARI KODE MATA KULIAH\n");
+        printf("9. KELUAR\n");
+        printf("PILIH MENU PROGRAM : ");
+        scanf("%d", &pilihan);
 
-    // MEMANGGIL FUNGSI URUTKAN DATA SEBELUM DITAMPILKAN DAN DICARI
-    urutkanData(khs, n);
+        switch (pilihan) {
+            case 1:
+            printf("Masukkan Jumlah Data : ");
+            scanf("%d", &n);
 
-    tampilkanKHS(khs, n);
+            for (int i = 0; i < n; i++) {
+                printf("Input data ke %d\n", i + 1);
 
-    int jumlah_sks = hitungJumlahSKS(khs, n);
-    printf("\nTotal SKS : %d\n", jumlah_sks);
-    int jumlah_nilai_sks = hitungJumlahNilaiSKS(khs, n);
-    printf("Total Nilai SKS : %d\n", jumlah_nilai_sks);
+                printf("Masukkan kode mk : ");
+                scanf("%s", khs[i].kode_matakuliah);
+                
+                getchar();
+                printf("Masukkan nama mk : ");
+                fgets(khs[i].nama_matakuliah, sizeof(khs[i].nama_matakuliah), stdin);
+                khs[i].nama_matakuliah[strcspn(khs[i].nama_matakuliah,"\n")] = '\0';
+                
+                printf("Masukkan sks/mk : ");
+                scanf("%d", &khs[i].sks);
+                
+                printf("Masukkan nilai angka : ");
+                scanf("%f", &khs[i].nilai_angka);
+                
+                printf("Masukkan nilai sks : ");
+                scanf("%d", &khs[i].nilai_sks);
+                
+                printf("\n");
+            }
+            dataSudahDiisi = 1;
+            printf("\nData berhasil di input\n");
+            break;
 
-    // MENGHITUNG NILAI AKHIR INDEKS PRESTASI SEMESTER (IPS)
-    float hitungIPS = (float) jumlah_nilai_sks / jumlah_sks;
-    printf("Indeks Prestasi Semester : %.2f\n", hitungIPS);
+            case 2:
+            if (dataSudahDiisi == 0) {
+                printf("Data harus di isi!");
+                break;
+            }
+            tampilkanKHS(khs, n);
+            break;
+            
+            case 3:
+            if (dataSudahDiisi == 0) {
+                printf("Data harus di isi!");
+                break;
+            }
+            printf("\nTotal SKS : %d\n", hitungJumlahSKS(khs, n));
+            break;
+            
+            case 4:
+            if (dataSudahDiisi == 0) {
+                printf("Data harus di isi!");
+                break;
+            }
+            printf("Total Nilai SKS : %d\n", hitungJumlahNilaiSKS(khs, n));
+            break;
+            
+            case 5: {
+                if (dataSudahDiisi == 0) {
+                    printf("Data harus di isi!");
+                    break;
+                }
+                
+                int jumlah_sks = hitungJumlahSKS(khs, n);
+                int jumlah_nilai_sks = hitungJumlahNilaiSKS(khs, n);
+                float hitungIPS = (float) jumlah_nilai_sks / jumlah_sks;
+                
+                printf("Indeks Prestasi Semester : %.2f\n", hitungIPS);
+                break;
+            }
 
-    float rataRata = rataRataNilaiAngka(khs, n);
-    printf("Rata Rata Nilai angka : %.2f\n", rataRata);
+            case 6:
+            if (dataSudahDiisi == 0) {
+                printf("Data harus di isi!");
+                break;
+            }
+            printf("Rata Rata Nilai angka : %.2f\n",
+                rataRataNilaiAngka(khs, n));
+            break;
 
-    // PROSES INPUT DAN EKSEKUSI BINARY SEARCH
-    char cari_kode[20];
-    printf("\nMasukkan Kode MK yang dicari : ");
-    scanf("%s", cari_kode);
+            case 7:
+            if (dataSudahDiisi == 0) {
+                printf("Data harus di isi!");
+                break;
+            }
+            urutkanData(khs, n);
+            dataSudahDiurutkan = 1;
 
-    int hasil = binarySearch(khs, n, cari_kode);
+            printf("\nDATA TERURUT\n");
+            tampilkanKHS(khs, n);
+            break;
 
-    if (hasil != -1) {
-        printf("Kode MK %s merupakan mata kuliah %s\n", khs[hasil].kode_matakuliah, khs[hasil].nama_matakuliah);
-       
-    } else {
-        printf("Data tidak ditemukan.\n");
-    }
+            case 8: {
+                if (dataSudahDiisi == 0) {
+                    printf("Data belum diinput!\n");
+                    break;
+                }
+                
+                if (dataSudahDiurutkan == 0) {
+                    printf("Data harus diurutkan terlebih dahulu!\n");
+                    break;
+                }
+
+                char cari_kode[20];
+                
+                printf("\nMasukkan Kode MK yang dicari : ");
+                scanf("%s", cari_kode);
+                
+                int hasil = binarySearch(khs, n, cari_kode);
+                
+                if (hasil != -1) {
+                    printf("Kode MK %s merupakan mata kuliah %s\n", khs[hasil].kode_matakuliah, khs[hasil].nama_matakuliah);
+                } else {
+                    printf("Data tidak ditemukan.\n");
+                }
+                break;
+            }
+
+            case 9:
+            printf("PROGRAM SELESAI\n");
+            break;
+
+            default:
+            printf("PILIHAN TIDAK VALID\n");
+        }
+    } while (pilihan != 9);
 
     return 0;
 }
