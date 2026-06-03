@@ -49,6 +49,40 @@ float rataRataNilaiAngka(Data rata[], int n) {
     return hasil / n;
 }
 
+// MENGURUTKAN DATA BERDASARKAN KODE MK (WAJIB UNTUK BINARY SEARCH)
+void urutkanData(Data data[], int n) {
+    Data temp;
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (strcmp(data[j].kode_matakuliah, data[j + 1].kode_matakuliah) > 0) {
+                temp = data[j];
+                data[j] = data[j + 1];
+                data[j + 1] = temp;
+            }
+        }
+    }
+}
+
+// PENCARIAN DATA DENGAN BINARY SEARCH BERDASARKAN KODE MK
+int binarySearch(Data data[], int n, char cari[]) {
+    int low = 0;
+    int high = n - 1;
+    while (low <= high) {
+        int mid = low + (high - low) / 2;
+        int res = strcmp(data[mid].kode_matakuliah, cari);
+        
+        if (res == 0) {
+            return mid;
+        }
+        if (res < 0) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    return -1;
+}
+
 // FUNGSI UTAMA
 int main() {
     int n;
@@ -79,6 +113,9 @@ int main() {
         printf("\n");
     }
 
+    // MEMANGGIL FUNGSI URUTKAN DATA SEBELUM DITAMPILKAN DAN DICARI
+    urutkanData(khs, n);
+
     tampilkanKHS(khs, n);
 
     int jumlah_sks = hitungJumlahSKS(khs, n);
@@ -92,6 +129,24 @@ int main() {
 
     float rataRata = rataRataNilaiAngka(khs, n);
     printf("Rata Rata Nilai angka : %.2f\n", rataRata);
+
+    // PROSES INPUT DAN EKSEKUSI BINARY SEARCH
+    char cari_kode[20];
+    printf("\nMasukkan Kode MK yang dicari : ");
+    scanf("%s", cari_kode);
+
+    int hasil = binarySearch(khs, n, cari_kode);
+
+    if (hasil != -1) {
+        printf("Data ditemukan pada indeks ke-%d\n", hasil);
+        printf("Kode MK     : %s\n", khs[hasil].kode_matakuliah);
+        printf("Nama MK     : %s\n", khs[hasil].nama_matakuliah);
+        printf("SKS         : %d\n", khs[hasil].sks);
+        printf("Nilai Angka : %.2f\n", khs[hasil].nilai_angka);
+        printf("Nilai SKS   : %d\n", khs[hasil].nilai_sks);
+    } else {
+        printf("Data tidak ditemukan.\n");
+    }
 
     return 0;
 }
