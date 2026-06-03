@@ -145,12 +145,8 @@ int main() {
     int hasil = binarySearch(khs, n, cari_kode);
 
     if (hasil != -1) {
-        printf("Data ditemukan pada indeks ke-%d\n", hasil);
-        printf("Kode MK     : %s\n", khs[hasil].kode_matakuliah);
-        printf("Nama MK     : %s\n", khs[hasil].nama_matakuliah);
-        printf("SKS         : %d\n", khs[hasil].sks);
-        printf("Nilai Angka : %.2f\n", khs[hasil].nilai_angka);
-        printf("Nilai SKS   : %d\n", khs[hasil].nilai_sks);
+        printf("Kode MK %s merupakan mata kuliah %s\n", khs[hasil].kode_matakuliah, khs[hasil].nama_matakuliah);
+       
     } else {
         printf("Data tidak ditemukan.\n");
     }
